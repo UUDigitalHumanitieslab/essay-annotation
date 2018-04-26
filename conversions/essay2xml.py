@@ -1,3 +1,5 @@
+#!/usr/bin/env python2
+from __future__ import print_function
 import codecs
 import glob
 import os
@@ -76,7 +78,7 @@ def count_brackets(n, line):
     Matches the number of brackets on a line.
     """
     if line.count('[') != line.count(']'):
-        msg = 'Number of brackets does not match on line {} ({})'.format(n, line.replace('\n', ''))
+        msg = u'Number of brackets does not match on line {} ({})'.format(n, line.replace('\n', ''))
         raise ParseException(msg)
 
 
@@ -85,7 +87,7 @@ def check_no_annotation(n, line):
     Check if there's a bracket without annotation.
     """
     if '] ' in line:
-        msg = 'No annotation specified on line {} ({})'.format(n, line.replace('\n', ''))
+        msg = u'No annotation specified on line {} ({})'.format(n, line.replace('\n', ''))
         raise ParseException(msg)
 
 
@@ -148,6 +150,11 @@ def process_file(dirname, filename):
             except ParseException as e:
                 parsing_failed = True
                 errors.append(e)
+            except Exception as e:
+                # other error, give information about the line
+                print('{0}: '.format(n), end='')
+                print(line)
+                raise e
 
         if not parsing_failed:
             outpath = os.path.join(dirname, 'out')
@@ -158,9 +165,9 @@ def process_file(dirname, filename):
 
             doc.save(os.path.join(outpath, outfile))
         else:
-            print('Parsing failed for {}! Errors:'.format(filename))
+            print(u'Parsing failed for {}! Errors:'.format(filename))
             for e in errors:
-                print('-', e)
+                print(u'-', unicode(e.message).encode('utf-8'))
 
 
 def process_folder(dirname):
