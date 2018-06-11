@@ -18,7 +18,23 @@ ORPHAN_TAG = re.compile(r'(^|[^\]\w\*\+])(\w+[\*\+])')
 
 
 class ParseException(Exception):
-    pass
+    def __init__(self, message):
+
+        if isinstance(message, unicode):
+            super(ParseException, self).__init__(message.encode('utf-8'))
+            self.message = message
+
+        elif isinstance(message, str):
+            super(ParseException, self).__init__(message)
+            self.message = message.decode('utf-8')
+
+        # This shouldn't happen...
+        else:
+            raise TypeError
+
+    def __unicode__(self):
+        return self.message
+    
 
 
 def extract_annotations(n, s, pa=None):
@@ -39,9 +55,9 @@ def extract_annotations(n, s, pa=None):
         annotation_match = TAG.match(post_sentence)
         if not annotation_match:
             if not post_sentence:
-                msg = 'No annotation specified on line {} for part "{}"'.format(n, sentence)
+                msg = u'No annotation specified on line {} for part "{}"'.format(n, sentence)
             else:
-                msg = 'Wrong annotation format on line {}: {} ({})'.format(n, post_sentence, sentence)
+                msg = u'Wrong annotation format on line {}: {} ({})'.format(n, post_sentence, sentence)
             raise ParseException(msg)
         annotation = annotation_match.group(1)
 
@@ -152,6 +168,7 @@ def process_file(dirname, filename):
                 errors.append(e)
             except Exception as e:
                 # other error, give information about the line
+                print(filename)
                 print('{0}: '.format(n), end='')
                 print(line)
                 raise e
