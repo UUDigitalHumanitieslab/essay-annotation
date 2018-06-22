@@ -18,8 +18,14 @@ ORPHAN_TAG = re.compile(r'(^|[^\]\w\*\+])(\w+[\*\+])')
 
 
 class ParseException(Exception):
-    pass
-
+    def __init__(self, error, line, offset, text):
+        super(ParseException, self).__init__()
+        message_start = u'[{}] line: {}, offset: {} '.format(error.upper(), line, offset)
+        if len(text) > 80 and offset > 40:
+            shift = offset - 40
+            text = text[shift:]
+            offset = 40
+        self.message = message_start + text[:80].rstrip() + '\n' + (' ' * (len(message_start) + offset - 2)) + '^^^'
 
 def extract_annotations(n, s, pa=None):
     """
@@ -30,19 +36,18 @@ def extract_annotations(n, s, pa=None):
 
     for start, end in get_matching_brackets(s):
         sentence = s[start+1:end]
-        if ORPHAN_TAG.search(sentence):
-            msg = u'Orphan tag found on line {} for part "{}"'.format(n, sentence)
-            raise ParseException(msg)
+        match = ORPHAN_TAG.search(sentence)
+        if match:
+            raise ParseException('orphan tag', n, match.pos, sentence)
 
         post_sentence = s[end+1:]
 
         annotation_match = TAG.match(post_sentence)
         if not annotation_match:
             if not post_sentence:
-                msg = 'No annotation specified on line {} for part "{}"'.format(n, sentence)
+                raise ParseException('no annotation', n, end+1, s)
             else:
-                msg = 'Wrong annotation format on line {}: {} ({})'.format(n, post_sentence, sentence)
-            raise ParseException(msg)
+                raise ParseException('wrong annotation format', n, end+1, s)
         annotation = annotation_match.group(1)
 
         p_child = PartAnnotation(sentence, annotation)
@@ -77,18 +82,27 @@ def count_brackets(n, line):
     """
     Matches the number of brackets on a line.
     """
-    if line.count('[') != line.count(']'):
-        msg = u'Number of brackets does not match on line {} ({})'.format(n, line.replace('\n', ''))
-        raise ParseException(msg)
+    left_brackets_count = line.count('[')
+    right_brackets_count = line.count(']')
+    if left_brackets_count != right_brackets_count:
+        raise ParseException(
+            'number of brackets do not match',
+            n,
+            line.rfind('[' if left_brackets_count > '[' else ']'),
+            line)
 
 
 def check_no_annotation(n, line):
     """
     Check if there's a bracket without annotation.
     """
-    if '] ' in line:
-        msg = u'No annotation specified on line {} ({})'.format(n, line.replace('\n', ''))
-        raise ParseException(msg)
+    no_annotation_index = line.find('] ')
+    if no_annotation_index >= 0:        
+        raise ParseException(
+            'no annotation',
+            n,
+            no_annotation_index,
+            line)
 
 
 def start_folia_document(filename):
@@ -167,7 +181,7 @@ def process_file(dirname, filename):
         else:
             print(u'Parsing failed for {}! Errors:'.format(filename))
             for e in errors:
-                print(u'-', unicode(e.message).encode('utf-8'))
+                print(e.message)
 
 
 def process_folder(dirname):
