@@ -27,6 +27,9 @@ class ParseException(Exception):
             offset = 40
         self.message = message_start + text[:80].rstrip() + '\n' + (' ' * (len(message_start) + offset - 2)) + '^^^'
 
+    def __unicode__(self):
+        return self.message
+
 def extract_annotations(n, s, pa=None):
     """
     Extracts all annotations from a (plain text) sentence.
@@ -166,6 +169,7 @@ def process_file(dirname, filename):
                 errors.append(e)
             except Exception as e:
                 # other error, give information about the line
+                print(filename)
                 print('{0}: '.format(n), end='')
                 print(line)
                 raise e
