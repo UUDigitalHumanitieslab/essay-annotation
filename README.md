@@ -5,27 +5,38 @@ This project contains scripts to convert Word documents with a specific markup (
 After the conversion is complete, there are scripts available to output the results to .csv- or .html-format.
 You can find details on the scripts below.
 
+## Requirements
+
+Install Python 2.7 or newer. Sadly this doesn't work (yet) in Python 3, so make sure you use a version of Python 2! Once you have this installed, the necessary requirements can be retrieved using the following command from the root of this project:
+
+```
+pip install -r requirements.txt
+```
+
+(It is recommended but not required to do this within a [virtual environment](https://virtualenv.pypa.io/en/stable/)).
+
 ## Preprocessing
 
 ### Word to plain text
 
-Call `conversions/docx2txt.py` with the specified file to convert the document to plain text files.
+Before converting a new document it is recommended to clear/remove the `data` folder containing the output of your previous conversion.
+
+Call `python conversions/docx2txt.py` with the specified file to convert the document to plain text files.
 
 ### Plain text to FoLiA
 
-Call `conversions/essay2xml.py` to convert the plain-text files to FoLiA.
+Call `python conversions/essay2xml.py` to convert the plain-text files to FoLiA.
 
 ## Conversions
 
 ### FoLiA to HTML
 
-Call `conversions/folia2html.py` to convert the plain-text files to FoLiA.
+Call `python conversions/folia2html.py` to convert the plain-text files to FoLiA.
 
 ### FoLiA to .csv
 
-Call `conversions/xml2csv.py` to convert the plain-text files to FoLiA.
+Call `python conversions/xml2csv.py` to convert the plain-text files to FoLiA.
 
 ### FoLiA to .txt
 
-Call `conversions/xml2txt.py` to convert the plain-text files to FoLiA.
-
+Call `python conversions/xml2txt.py` to convert the plain-text files to FoLiA.
