@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/UUDigitalHumanitieslab/essay-annotation.svg?branch=develop)](https://travis-ci.org/UUDigitalHumanitieslab/essay-annotation)
+
 # essay-annotation
 Parses essay annotation into FoLiA XML
 
