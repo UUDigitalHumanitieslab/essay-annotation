@@ -44,8 +44,9 @@ def process_folder(folder):
     """
     # Loop over all .xml-files in the given folder
     for filename in glob.glob(os.path.join(folder, '*.xml')):
-        print 'Processing ', filename
+        print('Processing ', filename)
         process_file(filename)
 
 if __name__ == '__main__':
-    process_folder('../data/out')
+    process_folder(os.path.join(os.path.dirname(__file__),'..', 'data', 'out'))
+

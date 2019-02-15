@@ -31,12 +31,15 @@ Call `python conversions/essay2xml.py` to convert the plain-text files to FoLiA.
 
 ### FoLiA to HTML
 
+(Requires Python 3)
 Call `python conversions/folia2html.py` to convert the plain-text files to FoLiA.
 
 ### FoLiA to .csv
 
+(Should work with Python 3)
 Call `python conversions/xml2csv.py` to convert the plain-text files to FoLiA.
 
 ### FoLiA to .txt
 
-Call `python conversions/xml2txt.py` to convert the plain-text files to FoLiA.
+(Should work with Python 3)
+Call `python conversions/xml2txt.py` to convert the FoLiA files to plain-text files.

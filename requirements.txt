@@ -4,10 +4,13 @@
 #
 #    pip-compile --output-file requirements.txt requirements.in
 #
+docutils==0.14            # via folia-tools
+folia-tools==1.5.1.60
 httplib2==0.10.3          # via pynlpl
 isodate==0.5.4            # via rdflib
-lxml==3.7.3               # via pynlpl, python-docx
-PyNLPl==1.1.8
+lxml==3.7.3               # via folia-tools, pynlpl, python-docx
+pynlpl==1.2.8
 pyparsing==2.2.0          # via rdflib
 python-docx==0.8.6
+pyyaml==3.13              # via folia-tools
 rdflib==4.2.2             # via pynlpl
