@@ -12,7 +12,7 @@ def replace_specials(s):
 def process_file(filename):
     """
     Reads a single FoLiA .xml-file, loops over its Sentences,
-    and writes the text to the csv file.
+    and writes the text to plain text files.
     """
     bname, _ = os.path.splitext(os.path.basename(filename))
     dname = os.path.dirname(filename)

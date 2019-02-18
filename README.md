@@ -7,7 +7,7 @@ You can find details on the scripts below.
 
 ## Requirements
 
-Install Python 2.7 or newer. Sadly this doesn't work (yet) in Python 3, so make sure you use a version of Python 2! Once you have this installed, the necessary requirements can be retrieved using the following command from the root of this project:
+Install Python 3.6 or newer. Once you have this installed, the necessary requirements can be retrieved using the following command from the root of this project:
 
 ```
 pip install -r requirements.txt
@@ -31,15 +31,12 @@ Call `python conversions/essay2xml.py` to convert the plain-text files to FoLiA.
 
 ### FoLiA to HTML
 
-(Requires Python 3)
 Call `python conversions/folia2html.py` to convert the plain-text files to FoLiA.
 
 ### FoLiA to .csv
 
-(Should work with Python 3)
 Call `python conversions/xml2csv.py` to convert the plain-text files to FoLiA.
 
 ### FoLiA to .txt
 
-(Should work with Python 3)
 Call `python conversions/xml2txt.py` to convert the FoLiA files to plain-text files.
