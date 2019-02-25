@@ -5,7 +5,7 @@ from string import punctuation
 
 from pynlpl.formats import folia
 
-from utils import UnicodeWriter
+import csv
 
 REMOVE_SPACES = re.compile(r'\s+([{}])+'.format(re.escape(punctuation)))
 
@@ -94,9 +94,9 @@ def process_folder(folder):
     Writes annotations from all FoLiA .xml-files from the given folder to a .csv-file.
     """
     # Create an output .csv-file
-    with open(os.path.join(folder, 'annotations.csv'), 'wb') as csv_file:
-        csv_file.write(u'\uFEFF'.encode('utf-8'))  # the UTF-8 BOM to hint Excel we are using that...
-        csv_writer = UnicodeWriter(csv_file, delimiter=';')
+    with open(os.path.join(folder, 'annotations.csv'), 'w') as csv_file:
+        csv_file.write('\uFEFF')  # the UTF-8 BOM to hint Excel we are using that...
+        csv_writer = csv.writer(csv_file, delimiter=';')
         csv_writer.writerow(['tekstnummer', 'zin nr',
                              'geannoteerde passage', 'correctie',
                              'eenheid', 'probleem', 'woordsoort',
